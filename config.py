@@ -12,3 +12,6 @@ BACKGROUNDCOLOUR = (130, 202, 225)
 #Frames per second
 FPS = 30
 
+#game world physics
+GRAVITY = Vector2(0,0.4)
+FRIC = 0.08 #Friction
