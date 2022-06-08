@@ -1,5 +1,4 @@
 #This is where all the classes will be kept to make easy changes to them and to keep them all in one place
-
 from config import *
 from pygame.sprite import Sprite
 from pygame.math import Vector2
