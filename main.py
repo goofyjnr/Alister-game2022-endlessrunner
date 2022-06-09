@@ -9,13 +9,6 @@ from random import randint
 
 pygame.init()
 
-#player and platform colision
-def hits_platform(player,platforms):
-    hits_platforms = pygame.sprite.spritecollide(player,platforms,False)
-    if len(hits_platforms) != 0 :
-        if player.vel.y > 0:
-            player.vel.y = 0 
-            player.position.y = hits_platforms[0].rect.top+1
 
 #main game loop
 running = True
@@ -32,6 +25,14 @@ while running:
             #if ESC key gets pressed
             if event.key == K_ESCAPE:
                 running = False #if the escape key is pressed quit the game.
+            elif event.key == K_SPACE:
+                player.jump()
+            elif event.key == K_RIGHT or event.key == K_d:
+                player.move("right")
+            elif event.key == K_LEFT or event.key == K_a:
+                player.move("left")
+            elif event.key == K_DOWN or event.key == K_s:
+                player.move("down")
         
             
     hits_platform(player,platforms)

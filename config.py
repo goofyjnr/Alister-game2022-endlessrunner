@@ -1,6 +1,7 @@
 #where all the global constants are kept allowing me to easily change any of the values and have them change for the entire project
 from pygame import Vector2
 
+
 #game window
 WINDOW_WITDTH = 800
 WINDOW_HEIGHT = 400
@@ -13,5 +14,12 @@ BACKGROUNDCOLOUR = (130, 202, 225)
 FPS = 30
 
 #game world physics
-GRAVITY = Vector2(0,0.4)
+GRAVITY = Vector2(0,1)
 FRIC = 0.08 #Friction
+
+#player stuff
+JUMP_STRENGTH = Vector2(0,-20)
+MOVE_STRENGTH =  Vector2(5,5)
+PLAYER_HEALTH = 3
+
+
