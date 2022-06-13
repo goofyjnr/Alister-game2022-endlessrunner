@@ -5,11 +5,12 @@ from pygame.locals import *
 from config import *
 from objects import *
 from startup import *
-from random import randint
+
 
 pygame.init()
 
-
+platform_spawn()
+monster_spawn()
 #main game loop
 running = True
 while running:
@@ -34,11 +35,30 @@ while running:
             elif event.key == K_DOWN or event.key == K_s:
                 player.move("down")
         
+    for monster in monsters:
+        if not window.get_rect().inflate(100,100).contains(monster.rect):
+            monster.kill()
+            monster_spawn()
+    for platform in platforms:
+        if not window.get_rect().inflate(100,100).contains(platform.rect):
+            platform.kill()
+            platform_spawn()
+    hit_monster = pygame.sprite.spritecollide(player,monsters,True)
+    if len(hit_monster) != 0:
+        player.health -= 1
+        monster_spawn()
+
+    if player.health == 0:
+        player.kill()
             
-    hits_platform(player,platforms)
+    player_hits_platform(player, platforms)
+    monster_hits_platform(monster, platforms)
 
     all_sprites.update()
     window.fill(BACKGROUNDCOLOUR)
+    back_ground.update()
+    back_ground.render(window)
+    
     for sprite in all_sprites:
         window.blit(sprite.image,sprite.rect)
     pygame.display.update()

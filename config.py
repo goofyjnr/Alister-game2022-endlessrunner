@@ -18,7 +18,7 @@ GRAVITY = Vector2(0,1)
 FRIC = 0.08 #Friction
 
 #player stuff
-JUMP_STRENGTH = Vector2(0,-20)
+JUMP_STRENGTH = Vector2(0,-15)
 MOVE_STRENGTH =  Vector2(5,5)
 PLAYER_HEALTH = 3
 

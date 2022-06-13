@@ -1,5 +1,5 @@
 #This is where all the classes will be kept to make easy changes to them and to keep them all in one place
-from itertools import count
+
 from config import *
 from pygame.sprite import Sprite
 from pygame.math import Vector2
@@ -37,6 +37,7 @@ class Player(Physics):
         self.score = 0
         self.jumping = False #sets it up so can jump the first time
         self.jump_count = 0
+        self.health = PLAYER_HEALTH
 
     def move(self,direction):
         if direction == "left":
@@ -60,10 +61,13 @@ class Monster(Physics):
     def __init__(self, position, width, height, image="Assets/monster.png"):
         super().__init__(position, width, height, image)
         self.image = flip(self.image,True,False)
-
+        self.vel = Vector2(-3,0)
     def update(self):
+        self.vel += GRAVITY
         self.position += self.vel
         self.rect.midbottom = self.position
+
+    
 
 class Coin(Physics):
     pass
@@ -81,3 +85,30 @@ class Platform(Physics):
 
 class Powerup(Physics):
     pass
+
+class Background(Drawable):
+      def __init__(self, position, width, height, image="Assets/background.png"):
+        super().__init__(position, width, height, image)
+        self.bgimage = scale(load(image),(width,height))
+        self.rectBGimg = self.bgimage.get_rect()
+
+        self.bgY1 = 0
+        self.bgX1 = 0
+
+        self.bgY2 = 0
+        self.bgX2 = self.rectBGimg.width
+
+        self.moving_speed = 5
+         
+      def update(self):
+        self.bgX1 -= self.moving_speed
+        self.bgX2 -= self.moving_speed
+        if self.bgX1 <= -self.rectBGimg.width:
+            self.bgX1 = self.rectBGimg.width
+        if self.bgX2 <= -self.rectBGimg.width:
+            self.bgX2 = self.rectBGimg.width
+             
+      def render(self,window):
+         window.blit(self.bgimage, (self.bgX1, self.bgY1))
+         window.blit(self.bgimage, (self.bgX2, self.bgY2))
+
