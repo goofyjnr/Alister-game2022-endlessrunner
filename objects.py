@@ -29,14 +29,25 @@ class Physics(Drawable):
         self.position += self.vel
         self.rect.midbottom = self.position
         
+class Text(Sprite):
+    def __init__(self, text, size, position, *groups) -> None:
+        super().__init__(*groups)
+        self.text = text
+        self.position = Vector2(position)
+        self.font = Font(None,size)
+        self.image = self.font.render(self.text,True,TEXTCOLOUR)
+        self.rect = self.image.get_rect(midbottom=position)
+
+    def update(self):
+        self.image = self.font.render(self.text,True,TEXTCOLOUR)
+        self.rect = self.image.get_rect(midbottom=self.position)
 
 class Player(Physics):
     def __init__(self, position, width, height, image="Assets/chara.png"):
         super().__init__(position, width, height, image)
-
-        self.score = 0
         self.jumping = False #sets it up so can jump the first time
         self.jump_count = 0
+        self.score = 0
         self.health = PLAYER_HEALTH
 
     def move(self,direction):
@@ -67,13 +78,7 @@ class Monster(Physics):
         self.position += self.vel
         self.rect.midbottom = self.position
 
-    
 
-class Coin(Physics):
-    pass
-
-class Text(Sprite):
-    pass
 
 class Platform(Physics):
     def __init__(self, position, width, height, image="Assets/platform.png"):
@@ -82,9 +87,6 @@ class Platform(Physics):
     def update(self):
         self.position += self.vel
         self.rect.midbottom = self.position
-
-class Powerup(Physics):
-    pass
 
 class Background(Drawable):
       def __init__(self, position, width, height, image="Assets/background.png"):
@@ -98,7 +100,7 @@ class Background(Drawable):
         self.bgY2 = 0
         self.bgX2 = self.rectBGimg.width
 
-        self.moving_speed = 5
+        self.moving_speed = 1
          
       def update(self):
         self.bgX1 -= self.moving_speed
@@ -112,3 +114,8 @@ class Background(Drawable):
          window.blit(self.bgimage, (self.bgX1, self.bgY1))
          window.blit(self.bgimage, (self.bgX2, self.bgY2))
 
+class Coin(Physics):
+    pass
+
+class Powerup(Physics):
+    pass

@@ -1,16 +1,16 @@
 #This is where the main loop and other things that interact with the main loop is kept 
 
 import pygame 
-from pygame.locals import *
 from config import *
 from objects import *
 from startup import *
 
 
-pygame.init()
-
 platform_spawn()
 monster_spawn()
+#ui_text()
+
+
 #main game loop
 running = True
 while running:
@@ -19,7 +19,7 @@ while running:
     #get the events
     events = pygame.event.get()
     for event in events:
-        print(event)
+        #print(event)
         if event.type == QUIT:
             running = False
         elif event.type == KEYDOWN:
@@ -34,33 +34,44 @@ while running:
                 player.move("left")
             elif event.key == K_DOWN or event.key == K_s:
                 player.move("down")
+            elif event.key == K_p:
+                pause()
         
     for monster in monsters:
-        if not window.get_rect().inflate(100,100).contains(monster.rect):
+        if not window.get_rect().inflate(150,100).contains(monster.rect):
             monster.kill()
             monster_spawn()
     for platform in platforms:
-        if not window.get_rect().inflate(100,100).contains(platform.rect):
+        if not window.get_rect().inflate(200,200).contains(platform.rect):
             platform.kill()
             platform_spawn()
     hit_monster = pygame.sprite.spritecollide(player,monsters,True)
     if len(hit_monster) != 0:
         player.health -= 1
+        player_health_text.text = "Health: " + str(player.health)
         monster_spawn()
 
     if player.health == 0:
+        gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
+        ui_group.draw(window)
         player.kill()
+        pygame.display.update()
+        pygame.time.delay(1000)
+        running = False
             
     player_hits_platform(player, platforms)
     monster_hits_platform(monster, platforms)
+    player_offscreen()
 
-    all_sprites.update()
+    
     window.fill(BACKGROUNDCOLOUR)
     back_ground.update()
     back_ground.render(window)
+    all_sprites.update()
     
     for sprite in all_sprites:
         window.blit(sprite.image,sprite.rect)
+
     pygame.display.update()
 
 pygame.quit()
