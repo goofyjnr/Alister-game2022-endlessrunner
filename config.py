@@ -23,4 +23,7 @@ JUMP_STRENGTH = Vector2(0,-15)
 MOVE_STRENGTH =  Vector2(5,5)
 PLAYER_HEALTH = 3
 
+#monster stuff
+MONSTER_SPEED = -5
+
 

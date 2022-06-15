@@ -47,9 +47,9 @@ player.vel = Vector2(0,0)
 #monsters
 #creates the monster
 def monster_spawn():
-    monster = Monster((WINDOW_WITDTH-30,WINDOW_HEIGHT/2+70),randint(40,60),randint(40,60))
+    monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(60,80),randint(60,90))
     monster.add(all_sprites, monsters)
-    monster.vel = Vector2(-5,0)
+    monster.vel = Vector2(MONSTER_SPEED-randint(1,6),0)
 
 
 #coins/points
@@ -109,3 +109,17 @@ def player_offscreen():
         player.vel = Vector2(0,0)
         player.position.y = player.position.y+3
 
+def player_hit():
+    hit_monster = pygame.sprite.spritecollide(player,monsters,True)
+    if len(hit_monster) != 0:
+        player.health -= 1
+        player_health_text.text = "Health: " + str(player.health)
+        monster_spawn()
+
+
+
+def platform_leave():
+    for platform in platforms:
+        if not window.get_rect().inflate(200,200).contains(platform.rect):
+            platform.kill()
+            platform_spawn()

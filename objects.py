@@ -60,6 +60,7 @@ class Player(Physics):
     
     def jump(self):
         if self.jumping == False and self.jump_count < 2:
+            self.vel.y =0
             self.jump_count = self.jump_count + 1
             self.vel += JUMP_STRENGTH
         elif self.jump_count == 2:

@@ -8,8 +8,6 @@ from startup import *
 
 platform_spawn()
 monster_spawn()
-#ui_text()
-
 
 #main game loop
 running = True
@@ -40,16 +38,14 @@ while running:
     for monster in monsters:
         if not window.get_rect().inflate(150,100).contains(monster.rect):
             monster.kill()
+            player.score += 1 
+            score_text.text = "Score: " + str(player.score)
             monster_spawn()
-    for platform in platforms:
-        if not window.get_rect().inflate(200,200).contains(platform.rect):
-            platform.kill()
-            platform_spawn()
-    hit_monster = pygame.sprite.spritecollide(player,monsters,True)
-    if len(hit_monster) != 0:
-        player.health -= 1
-        player_health_text.text = "Health: " + str(player.health)
-        monster_spawn()
+    
+            
+    platform_leave()
+    
+    player_hit()
 
     if player.health == 0:
         gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
