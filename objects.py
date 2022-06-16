@@ -115,8 +115,6 @@ class Background(Drawable):
          window.blit(self.bgimage, (self.bgX1, self.bgY1))
          window.blit(self.bgimage, (self.bgX2, self.bgY2))
 
-class Coin(Physics):
-    pass
-
-class Powerup(Physics):
-    pass
+class buttons(Text):
+    def __init__(self, text, size, position, *groups) -> None:
+        super().__init__(text, size, position, *groups)

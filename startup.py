@@ -40,6 +40,7 @@ base_platform.vel = Vector2(0,0)
 
 #player
 #creates the player
+
 player = Player((30,WINDOW_HEIGHT/2),40,40)
 player.add(all_sprites, players)
 player.vel = Vector2(0,0)
