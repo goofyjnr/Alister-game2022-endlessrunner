@@ -4,15 +4,20 @@ import pygame
 from config import *
 from objects import *
 from startup import *
-from menu import *
+
+
 
 
 def game():
+  
     global score_text
     pygame.display.set_caption("Game")
     
+
     platform_spawn()
     monster_spawn()
+    
+    
     
 
     #main game loop
@@ -40,29 +45,18 @@ def game():
                     player.move("down")
                 elif event.key == K_p:
                     pause()
+                elif event.key == K_r:
+                    reset()
             
-        for monster in monsters:
-            if not window.get_rect().inflate(150,100).contains(monster.rect):
-                monster.kill()
-                player.score += 1 
-                score_text.text = "Score: " + str(player.score)
-                monster_spawn()
-        
-                
+        monster_leave()
         platform_leave()
-        
         player_hit()
-
-        if player.health == 0:
-            gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
-            ui_group.draw(window)
-            player.kill()
-            pygame.display.update()
-            pygame.time.delay(1000)
-            running = False
+        gameover()
+        
                 
         player_hits_platform(player, platforms)
-        monster_hits_platform(monster, platforms)
+        for monster in monsters:
+            monster_hits_platform(monster,platforms)
         player_offscreen()
 
         
@@ -76,5 +70,51 @@ def game():
 
         pygame.display.update()
 
+#start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_HEIGHT)
+
+
+def main_menu():
+    global game
+    pygame.display.set_caption("Main menu")
+
+    menu = True
+    while menu:
+        events = pygame.event.get()
+        for event in events:
+            #print(event)
+            if event.type == QUIT:
+                menu = False
+            elif event.type == KEYDOWN:
+                #if ESC key gets pressed
+                if event.key == K_ESCAPE:
+                    menu = False #if the escape key is pressed quit the game.
+                elif event.key == K_g:
+                    game()
+                
+
+        Menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
+
+        window.fill((255,255,255))
+
+        #start_button.draw(window)
+
+        menu_ui.update()
+
+        for sprite in menu_ui:
+            window.blit(sprite.image,sprite.rect)
+
+        pygame.display.update()
+
+def gameover():
+    if player.health == 0:
+            gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
+            ui_group.draw(window)
+            pygame.display.update()
+            pygame.time.delay(1000)
+            gameover_text.kill()
+            player.playeralive = False
+            reset()
+            #running = False
+            #main_menu()
 game()
 pygame.quit()

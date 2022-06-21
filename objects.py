@@ -44,11 +44,12 @@ class Text(Sprite):
 
 class Player(Physics):
     def __init__(self, position, width, height, image="Assets/chara.png"):
-        super().__init__(position, width, height, image)
+        super().__init__(position, width, height, image,)
         self.jumping = False #sets it up so can jump the first time
         self.jump_count = 0
         self.score = 0
         self.health = PLAYER_HEALTH
+        self.playeralive = True
 
     def move(self,direction):
         if direction == "left":
@@ -66,6 +67,14 @@ class Player(Physics):
         elif self.jump_count == 2:
             self.jumping = True
 
+    def restart(self,position):
+        self.jumping = False
+        self.jump_count = 0 
+        self.score = 0
+        self.health = PLAYER_HEALTH
+        self.position = Vector2(position)
+        self.playeralive= True
+
     
         
 
@@ -78,6 +87,10 @@ class Monster(Physics):
         self.vel += GRAVITY
         self.position += self.vel
         self.rect.midbottom = self.position
+    def restart(self,position):
+        self.vel = Vector2(-3,0)
+        self.position = Vector2(position)
+
 
 
 
@@ -115,6 +128,10 @@ class Background(Drawable):
          window.blit(self.bgimage, (self.bgX1, self.bgY1))
          window.blit(self.bgimage, (self.bgX2, self.bgY2))
 
-class buttons(Text):
-    def __init__(self, text, size, position, *groups) -> None:
-        super().__init__(text, size, position, *groups)
+class Button(Drawable):
+    def __init__(self, position, width, height, image="Assets/chara.png") :
+        super().__init__(self, position, width, height, image )
+
+    def draw(self,window):
+        #draw button on screen
+        window.blit(self.image, self.rect.position)

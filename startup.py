@@ -18,6 +18,7 @@ players = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
 monsters = pygame.sprite.Group()
 ui_group = pygame.sprite.Group()
+menu_ui = pygame.sprite.Group()
 
 #background
 back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_HEIGHT)
@@ -47,6 +48,7 @@ player.vel = Vector2(0,0)
 
 #monsters
 #creates the monster
+
 def monster_spawn():
     monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(60,80),randint(60,90))
     monster.add(all_sprites, monsters)
@@ -66,15 +68,15 @@ score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_H
 #player and platform colision
 def player_hits_platform(player, platforms):
     player_hits_platforms = pygame.sprite.spritecollide(player,platforms,False)
-    if len(player_hits_platforms) != 0 :
-        if player.vel.y > 0:
+    if len(player_hits_platforms) != 0:
+        if player.vel.y > 0 and player.position.y < player_hits_platforms[0].rect.bottom:
             player.vel.y = 0 
             player.position.y = player_hits_platforms[0].rect.top 
             player.jumping = False #resets it so after you touch a platform you can jump again
             player.jump_count = 0
 
 #monste and platform colision
-def monster_hits_platform(monster, platforms):
+def monster_hits_platform(monster,platforms):
     monster_hits_platforms = pygame.sprite.spritecollide(monster,platforms,False)
     if len(monster_hits_platforms) != 0 :
         if monster.vel.y > 0:
@@ -114,7 +116,7 @@ def player_hit():
     hit_monster = pygame.sprite.spritecollide(player,monsters,True)
     if len(hit_monster) != 0:
         player.health -= 1
-        player_health_text.text = "Health: " + str(player.health)
+        update_ui()
         monster_spawn()
 
 
@@ -124,3 +126,22 @@ def platform_leave():
         if not window.get_rect().inflate(200,200).contains(platform.rect):
             platform.kill()
             platform_spawn()
+
+def monster_leave():
+    for monster in monsters:
+            if not window.get_rect().inflate(150,100).contains(monster.rect):
+                monster.kill()
+                player.score += 1 
+                update_ui()
+                monster_spawn()
+                #monster.restart((WINDOW_WITDTH,WINDOW_HEIGHT-65))
+
+def update_ui():
+    player_health_text.text = "Health: " + str(player.health)
+    score_text.text = "Score: " + str(player.score)
+
+def reset():
+    if player.playeralive == False:
+        player.restart((30,WINDOW_HEIGHT/2))
+        update_ui()
+
