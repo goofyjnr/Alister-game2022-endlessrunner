@@ -1,4 +1,5 @@
 #where everything that needs to be spawned is spawned in
+from platform import platform
 import pygame
 from pygame.locals import *
 
@@ -26,17 +27,18 @@ back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_
 #objects
 #moving platforms
 def platform_spawn():
-    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),100,20)
+    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),randint(100,200),20)
     platform.add(all_sprites,platforms)
-    platform.vel = Vector2(-randint(3,5),0)
+    platform.vel = Vector2(-randint(4,8),0)
 
 
 
 #baseplatform
 #creates the base platform
-base_platform = Platform((WINDOW_WITDTH/2,WINDOW_HEIGHT ),WINDOW_WITDTH,60)
-base_platform.add(all_sprites,platforms)
-base_platform.vel = Vector2(0,0)
+def base_platform_spawn():
+    base_platform = Platform((WINDOW_WITDTH/2,WINDOW_HEIGHT ),WINDOW_WITDTH,60)
+    base_platform.add(all_sprites,platforms)
+    base_platform.vel = Vector2(0,0)
 
 
 #player
@@ -58,7 +60,6 @@ def monster_spawn():
 #coins/points
 
 #text
-
 #player health 
 player_health_text = Text("Health: " + str(player.health),50,(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+200),all_sprites, ui_group)
 #score text
@@ -123,7 +124,7 @@ def player_hit():
 
 def platform_leave():
     for platform in platforms:
-        if not window.get_rect().inflate(200,200).contains(platform.rect):
+        if not window.get_rect().inflate(400,200).contains(platform.rect):
             platform.kill()
             platform_spawn()
 
@@ -134,7 +135,6 @@ def monster_leave():
                 player.score += 1 
                 update_ui()
                 monster_spawn()
-                #monster.restart((WINDOW_WITDTH,WINDOW_HEIGHT-65))
 
 def update_ui():
     player_health_text.text = "Health: " + str(player.health)
@@ -144,4 +144,9 @@ def reset():
     if player.playeralive == False:
         player.restart((30,WINDOW_HEIGHT/2))
         update_ui()
+        for monster in monsters:
+            monster.kill()
+        for platform in platforms:
+            platform.kill()
+        
 

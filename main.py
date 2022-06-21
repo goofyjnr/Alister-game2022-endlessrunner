@@ -7,16 +7,13 @@ from startup import *
 
 
 
-
 def game():
   
-    global score_text
     pygame.display.set_caption("Game")
     
-
+    base_platform_spawn()
     platform_spawn()
     monster_spawn()
-    
     
     
 
@@ -53,11 +50,14 @@ def game():
         player_hit()
         gameover()
         
-                
+              
         player_hits_platform(player, platforms)
+
+        player_offscreen()
+
         for monster in monsters:
             monster_hits_platform(monster,platforms)
-        player_offscreen()
+
 
         
         window.fill(BACKGROUNDCOLOUR)
@@ -114,7 +114,7 @@ def gameover():
             gameover_text.kill()
             player.playeralive = False
             reset()
-            #running = False
-            #main_menu()
+            running = False
+            main_menu()
 game()
 pygame.quit()
