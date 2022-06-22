@@ -19,6 +19,8 @@ players = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
 monsters = pygame.sprite.Group()
 ui_group = pygame.sprite.Group()
+score_ui = pygame.sprite.Group()
+health_ui = pygame.sprite.Group()
 menu_ui = pygame.sprite.Group()
 
 #background
@@ -59,11 +61,13 @@ def monster_spawn():
 
 #coins/points
 
+
 #text
-#player health 
-player_health_text = Text("Health: " + str(player.health),50,(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+200),all_sprites, ui_group)
-#score text
-score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, ui_group)
+def text_spawn():
+    #player health 
+    player_health_text = Text("Health: " + str(player.health),50,(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+200),all_sprites, health_ui)
+    #score text
+    score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, score_ui)
 
 
 #player and platform colision
@@ -90,10 +94,14 @@ def pause():
     paused = True
     pause_text = Text("Paused",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
     ui_group.draw(window)
+    health_ui.draw(window)
+    score_ui.draw(window)
     pygame.display.update()
     
     while paused:
         event = pygame.event.wait()
+        if event.type == QUIT:
+                paused = False
         if event.type == KEYDOWN:
             if event.key == K_p:
                 
@@ -117,7 +125,7 @@ def player_hit():
     hit_monster = pygame.sprite.spritecollide(player,monsters,True)
     if len(hit_monster) != 0:
         player.health -= 1
-        update_ui()
+        update_health()
         monster_spawn()
 
 
@@ -133,17 +141,22 @@ def monster_leave():
             if not window.get_rect().inflate(150,100).contains(monster.rect):
                 monster.kill()
                 player.score += 1 
-                update_ui()
+                update_score()
                 monster_spawn()
 
-def update_ui():
-    player_health_text.text = "Health: " + str(player.health)
-    score_text.text = "Score: " + str(player.score)
+def update_health():
+    for player_health_text in health_ui:
+        player_health_text.text = "Health: " + str(player.health)
+
+def update_score():
+    for score_text in score_ui:
+        score_text.text = "Score: " + str(player.score)
 
 def reset():
     if player.playeralive == False:
         player.restart((30,WINDOW_HEIGHT/2))
-        update_ui()
+        update_health()
+        update_score()
         for monster in monsters:
             monster.kill()
         for platform in platforms:

@@ -14,6 +14,7 @@ def game():
     base_platform_spawn()
     platform_spawn()
     monster_spawn()
+    text_spawn()
     
     
 
@@ -109,6 +110,9 @@ def gameover():
     if player.health == 0:
             gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
             ui_group.draw(window)
+            health_ui.draw(window)
+            score_ui.draw(window)
+
             pygame.display.update()
             pygame.time.delay(1000)
             gameover_text.kill()
