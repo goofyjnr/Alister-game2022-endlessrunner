@@ -7,6 +7,7 @@ from pygame.image import load
 from pygame.transform import scale, flip
 from pygame.font import Font
 
+
 class Drawable(Sprite):
     def __init__(self,position,width,height,image="Assets/chara.png"):
         super().__init__()
@@ -115,7 +116,6 @@ class Background(Drawable):
         self.bgX2 = self.rectBGimg.width
 
         self.moving_speed = 1
-         
       def update(self):
         self.bgX1 -= self.moving_speed
         self.bgX2 -= self.moving_speed
@@ -123,15 +123,7 @@ class Background(Drawable):
             self.bgX1 = self.rectBGimg.width
         if self.bgX2 <= -self.rectBGimg.width:
             self.bgX2 = self.rectBGimg.width
-             
       def render(self,window):
          window.blit(self.bgimage, (self.bgX1, self.bgY1))
          window.blit(self.bgimage, (self.bgX2, self.bgY2))
 
-class Button(Drawable):
-    def __init__(self, position, width, height, image="Assets/chara.png") :
-        super().__init__(self, position, width, height, image )
-
-    def draw(self,window):
-        #draw button on screen
-        window.blit(self.image, self.rect.position)

@@ -6,9 +6,8 @@ from objects import *
 from startup import *
 
 
-
+#runs the main game loop
 def game():
-  
     pygame.display.set_caption("Game")
     
     base_platform_spawn()
@@ -49,7 +48,7 @@ def game():
         monster_leave()
         platform_leave()
         player_hit()
-        gameover()
+        
         
               
         player_hits_platform(player, platforms)
@@ -69,22 +68,26 @@ def game():
         for sprite in all_sprites:
             window.blit(sprite.image,sprite.rect)
 
+        game_over()
         pygame.display.update()
-
-#start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_HEIGHT)
 
 
 def main_menu():
+    #runs the main menu loop
     global game
+    global running
     pygame.display.set_caption("Main menu")
 
     menu = True
     while menu:
+        game_clock.tick(FPS)
         events = pygame.event.get()
         for event in events:
             #print(event)
             if event.type == QUIT:
+                running = False
                 menu = False
+                
             elif event.type == KEYDOWN:
                 #if ESC key gets pressed
                 if event.key == K_ESCAPE:
@@ -92,12 +95,14 @@ def main_menu():
                 elif event.key == K_g:
                     game()
                 
+        
 
-        Menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
+
+        menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
+        body_text= Text("press g to play",40,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2+150), menu_ui)
 
         window.fill((255,255,255))
 
-        #start_button.draw(window)
 
         menu_ui.update()
 
@@ -106,7 +111,9 @@ def main_menu():
 
         pygame.display.update()
 
-def gameover():
+def game_over():
+    global running
+    #checks to see if the game is over
     if player.health == 0:
             gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
             ui_group.draw(window)
@@ -120,5 +127,5 @@ def gameover():
             reset()
             running = False
             main_menu()
-game()
+main_menu()
 pygame.quit()
