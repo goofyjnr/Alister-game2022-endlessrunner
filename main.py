@@ -101,10 +101,13 @@ def main_menu():
         menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
         body_text= Text("press g to play",40,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2+150), menu_ui)
 
-        window.fill((255,255,255))
+        window.fill((23,33,39))
 
 
         menu_ui.update()
+
+        if start_button.draw(window) == True:
+            game()
 
         for sprite in menu_ui:
             window.blit(sprite.image,sprite.rect)

@@ -65,8 +65,12 @@ def text_spawn():
     #score text
     score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, score_ui)
 
+#buttons
+start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),50,50)
+start_button.add(menu_ui)
 
-
+end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+50),50,50)
+end_button.add(menu_ui)
 
 def player_hits_platform(player, platforms):
     #player and platform colision

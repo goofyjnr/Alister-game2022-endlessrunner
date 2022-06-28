@@ -6,6 +6,8 @@ from pygame.math import Vector2
 from pygame.image import load
 from pygame.transform import scale, flip
 from pygame.font import Font
+from pygame.mouse import get_pos, get_pressed
+
 
 
 class Drawable(Sprite):
@@ -127,3 +129,29 @@ class Background(Drawable):
          window.blit(self.bgimage, (self.bgX1, self.bgY1))
          window.blit(self.bgimage, (self.bgX2, self.bgY2))
 
+#button class
+class Button(Drawable):
+    def __init__(self, position, width, height, image="Assets/start.png"):
+        super().__init__(position, width, height, image)
+
+        self.clicked = False 
+
+
+    def draw(self, window):
+        action = False
+        #get mouse position
+        pos = get_pos()
+
+        #check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            if get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action = True
+
+        if get_pressed()[0] == 0:
+            self.clicked = False
+
+        #draw button on screen
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
