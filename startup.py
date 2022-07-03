@@ -69,7 +69,7 @@ def text_spawn():
 start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),50,50)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+50),50,50)
+end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+80),50,50,image="Assets/end.png")
 end_button.add(menu_ui)
 
 def player_hits_platform(player, platforms):
@@ -174,4 +174,6 @@ def reset():
             monster.kill()
         for platform in platforms:
             platform.kill()
-        
+
+
+

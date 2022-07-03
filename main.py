@@ -1,15 +1,19 @@
 #This is where the main loop and other things that interact with the main loop is kept 
 
 import pygame 
+from sys import exit
 from config import *
 from objects import *
 from startup import *
 
+stop_the_game = False
 
-#runs the main game loop
 def game():
+    #runs the main game loop
+    global menu
     pygame.display.set_caption("Game")
     
+    menu = False
     base_platform_spawn()
     platform_spawn()
     monster_spawn()
@@ -20,6 +24,9 @@ def game():
     #main game loop
     running = True
     while running:
+        if stop_the_game:
+            return
+
         game_clock.tick(FPS)
 
         #get the events
@@ -28,11 +35,18 @@ def game():
             #print(event)
             if event.type == QUIT:
                 running = False
+                pygame.quit()
+                exit()
+                break
             elif event.type == KEYDOWN:
                 #if ESC key gets pressed
                 if event.key == K_ESCAPE:
                     running = False #if the escape key is pressed quit the game.
-                elif event.key == K_SPACE:
+                    menu = False
+                    pygame.quit()
+                    exit()
+                    break
+                elif event.key == K_SPACE or event.key == K_w or event.key == K_UP:
                     player.jump()
                 elif event.key == K_RIGHT or event.key == K_d:
                     player.move("right")
@@ -42,8 +56,6 @@ def game():
                     player.move("down")
                 elif event.key == K_p:
                     pause()
-                elif event.key == K_r:
-                    reset()
             
         monster_leave()
         platform_leave()
@@ -68,8 +80,11 @@ def game():
         for sprite in all_sprites:
             window.blit(sprite.image,sprite.rect)
 
-        game_over()
+        
         pygame.display.update()
+
+        if player.health == 0:
+            game_over()
 
 
 def main_menu():
@@ -77,6 +92,7 @@ def main_menu():
     global game
     global running
     pygame.display.set_caption("Main menu")
+    running = False
 
     menu = True
     while menu:
@@ -87,19 +103,25 @@ def main_menu():
             if event.type == QUIT:
                 running = False
                 menu = False
+                pygame.quit()
+                exit()
+                break
+                
                 
             elif event.type == KEYDOWN:
                 #if ESC key gets pressed
                 if event.key == K_ESCAPE:
-                    menu = False #if the escape key is pressed quit the game.
-                elif event.key == K_g:
-                    game()
+                    running = False
+                    menu = False
+                    pygame.quit()
+                    exit()
+                    break
+
                 
         
 
 
         menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
-        body_text= Text("press g to play",40,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2+150), menu_ui)
 
         window.fill((23,33,39))
 
@@ -108,14 +130,25 @@ def main_menu():
 
         if start_button.draw(window) == True:
             game()
+        
+        
 
         for sprite in menu_ui:
             window.blit(sprite.image,sprite.rect)
 
+        if end_button.draw(window) == True:
+            stop_the_game = True
+            running = False
+            menu = False
+            pygame.quit()
+            exit()
+            break
         pygame.display.update()
 
 def game_over():
+    
     global running
+    global menu
     #checks to see if the game is over
     if player.health == 0:
             gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
@@ -126,9 +159,18 @@ def game_over():
             pygame.display.update()
             pygame.time.delay(1000)
             gameover_text.kill()
+            for monster in monsters:
+                monster.kill()
+            for platform in platforms:
+                platform.kill()
             player.playeralive = False
+            running = False
+            menu = False
             reset()
             running = False
             main_menu()
+    
+
 main_menu()
+
 pygame.quit()
