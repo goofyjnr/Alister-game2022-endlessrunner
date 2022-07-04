@@ -1,7 +1,7 @@
 #This is where all the classes will be kept to make easy changes to them and to keep them all in one place
 
 from config import *
-from pygame.sprite import Sprite
+from pygame.sprite import Sprite, spritecollide
 from pygame.math import Vector2
 from pygame.image import load
 from pygame.transform import scale, flip
@@ -70,7 +70,30 @@ class Player(Physics):
         elif self.jump_count == 2:
             self.jumping = True
 
+    def colision_with_platforms(self,platforms):
+        #player and platform colision
+        player_hits_platforms = spritecollide(self,platforms,False)
+        if len(player_hits_platforms) != 0:
+            if self.vel.y > 0 and self.position.y < player_hits_platforms[0].rect.bottom:
+                self.vel.y = 0 
+                self.position.y = player_hits_platforms[0].rect.top 
+                self.jumping = False #resets it so after you touch a platform you can jump again
+                self.jump_count = 0
+
+    def player_offscreen(self):
+    #stops the player from going off screen
+        if self.position.x < 0:
+            self.vel = Vector2(0,0)
+            self.position.x = self.position.x+3       
+        if self.position.x > WINDOW_WITDTH-200:
+            self.vel = Vector2(0,0)
+            self.position.x = self.position.x-1
+        if self.position.y < 0 :
+            self.vel = Vector2(0,0)
+            self.position.y = self.position.y+3
+
     def restart(self,position):
+        #resets player to beginging position
         self.jumping = False
         self.jump_count = 0 
         self.score = 0
@@ -90,6 +113,15 @@ class Monster(Physics):
         self.vel += GRAVITY
         self.position += self.vel
         self.rect.midbottom = self.position
+
+    def colision_with_platforms(self,platforms):
+        #monster and platform colision
+        monster_hits_platforms = spritecollide(self,platforms,False)
+        if len(monster_hits_platforms) != 0 :
+            if self.vel.y > 0:
+                self.vel.y = 0
+                self.position.y = monster_hits_platforms[0].rect.top 
+
     def restart(self,position):
         self.vel = Vector2(-3,0)
         self.position = Vector2(position)

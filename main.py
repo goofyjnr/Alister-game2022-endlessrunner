@@ -63,12 +63,12 @@ def game():
         
         
               
-        player_hits_platform(player, platforms)
+        player.colision_with_platforms(platforms)
 
-        player_offscreen()
+        player.player_offscreen()
 
         for monster in monsters:
-            monster_hits_platform(monster,platforms)
+            monster.colision_with_platforms(platforms)
 
 
         

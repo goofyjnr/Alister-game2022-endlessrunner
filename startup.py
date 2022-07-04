@@ -66,30 +66,13 @@ def text_spawn():
     score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, score_ui)
 
 #buttons
-start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),50,50)
+start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),70,70)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+80),50,50,image="Assets/end.png")
+end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+80),70,70,image="Assets/end.png")
 end_button.add(menu_ui)
 
-def player_hits_platform(player, platforms):
-    #player and platform colision
-    player_hits_platforms = pygame.sprite.spritecollide(player,platforms,False)
-    if len(player_hits_platforms) != 0:
-        if player.vel.y > 0 and player.position.y < player_hits_platforms[0].rect.bottom:
-            player.vel.y = 0 
-            player.position.y = player_hits_platforms[0].rect.top 
-            player.jumping = False #resets it so after you touch a platform you can jump again
-            player.jump_count = 0
 
-
-def monster_hits_platform(monster,platforms):
-    #monster and platform colision
-    monster_hits_platforms = pygame.sprite.spritecollide(monster,platforms,False)
-    if len(monster_hits_platforms) != 0 :
-        if monster.vel.y > 0:
-            monster.vel.y = 0
-            monster.position.y = monster_hits_platforms[0].rect.top 
 
 
 #pauses the game
@@ -114,19 +97,6 @@ def pause():
                 pause_text.kill()
 
 
-
-def player_offscreen():
-    #stops the player from going off screen
-    if player.position.x < 0:
-        player.vel = Vector2(0,0)
-        player.position.x = player.position.x+3       
-    if player.position.x > WINDOW_WITDTH:
-        player.vel = Vector2(0,0)
-        player.position.x = player.position.x-3
-    if player.position.y < 0 :
-        player.vel = Vector2(0,0)
-        player.position.y = player.position.y+3
-
 def player_hit():
     #player and monster colision
     hit_monster = pygame.sprite.spritecollide(player,monsters,True)
@@ -134,7 +104,6 @@ def player_hit():
         player.health -= 1
         update_health()
         monster_spawn()
-
 
 
 def platform_leave():
@@ -164,7 +133,6 @@ def update_score():
         score_text.text = "Score: " + str(player.score)
 
 def reset():
-    
     #resets the positions of things in the game
     if player.playeralive == False:
         player.restart((30,WINDOW_HEIGHT/2))
