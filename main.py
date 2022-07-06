@@ -11,7 +11,7 @@ stop_the_game = False
 def game():
     #runs the main game loop
     global menu
-    pygame.display.set_caption("Game")
+    pygame.display.set_caption("Pigeon Pedestrian")
     
     menu = False
     base_platform_spawn()
@@ -60,18 +60,13 @@ def game():
         monster_leave()
         platform_leave()
         player_hit()
-        
-        
-              
+         
         player.colision_with_platforms(platforms)
-
         player.player_offscreen()
 
         for monster in monsters:
             monster.colision_with_platforms(platforms)
 
-
-        
         window.fill(BACKGROUNDCOLOUR)
         back_ground.update()
         back_ground.render(window)
@@ -91,7 +86,7 @@ def main_menu():
     #runs the main menu loop
     global game
     global running
-    pygame.display.set_caption("Main menu")
+    pygame.display.set_caption("Menu")
     running = False
 
     menu = True

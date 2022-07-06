@@ -48,11 +48,20 @@ class Text(Sprite):
 class Player(Physics):
     def __init__(self, position, width, height, image="Assets/chara.png"):
         super().__init__(position, width, height, image,)
+        self.image = flip(self.image,True,False)
         self.jumping = False #sets it up so can jump the first time
         self.jump_count = 0
         self.score = 0
         self.health = PLAYER_HEALTH
         self.playeralive = True
+
+        #player animation code
+        #self.animation_list = []
+        #self.index = 0
+        #for i in range(3):
+        #    image = 
+        #self.flip = False
+
 
     def move(self,direction):
         if direction == "left":
@@ -105,9 +114,9 @@ class Player(Physics):
         
 
 class Monster(Physics):
-    def __init__(self, position, width, height, image="Assets/monster.png"):
+    def __init__(self, position, width, height, image="Assets/monster/1.png"):
         super().__init__(position, width, height, image)
-        self.image = flip(self.image,True,False)
+        
         self.vel = Vector2(-3,0)
     def update(self):
         self.vel += GRAVITY

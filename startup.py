@@ -5,7 +5,7 @@ from pygame.locals import *
 
 from config import *
 from objects import *
-from random import randint
+from random import randint, random, choice
 
 pygame.init()
 
@@ -32,7 +32,7 @@ back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_
 #moving platforms
 def platform_spawn():
     #spawns the moving platforms
-    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),randint(100,200),20)
+    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),randint(100,200),20, image= "Assets/flying_platforms.png")
     platform.add(all_sprites,platforms)
     platform.vel = Vector2(-randint(4,8),0)
 
@@ -50,11 +50,15 @@ player = Player((30,WINDOW_HEIGHT/2),40,40)
 player.add(all_sprites, players)
 player.vel = Vector2(0,0)
 
+
+
 #monsters
 #creates the monster
 def monster_spawn():
-    #spawns the monster
-    monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(60,80),randint(60,90))
+    #spawns the monsters
+    monster_colours = ["Assets/monster/0.png", "Assets/monster/1.png", "Assets/monster/2.png", "Assets/monster/3.png"]
+    monster_colour = choice(monster_colours)
+    monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(80,100),70,image= monster_colour )
     monster.add(all_sprites, monsters)
     monster.vel = Vector2(MONSTER_SPEED-randint(1,6),0)
 
