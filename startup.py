@@ -62,6 +62,7 @@ def monster_spawn():
     monster.add(all_sprites, monsters)
     monster.vel = Vector2(MONSTER_SPEED-randint(1,6),0)
 
+
 #text
 def text_spawn():
     #player health 
@@ -70,10 +71,10 @@ def text_spawn():
     score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, score_ui)
 
 #buttons
-start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),70,70)
+start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+80),70,70,image="Assets/end.png")
+end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+100),150,70,image="Assets/end.png")
 end_button.add(menu_ui)
 
 

@@ -66,6 +66,10 @@ def game():
 
         for monster in monsters:
             monster.colision_with_platforms(platforms)
+        
+        #hard mode
+        #if player.score == 1:
+          #  monster_spawn()
 
         window.fill(BACKGROUNDCOLOUR)
         back_ground.update()

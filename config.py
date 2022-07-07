@@ -9,7 +9,7 @@ WINDOW_HEIGHT = 400
 
 #colours 
 BACKGROUNDCOLOUR = (130, 202, 225)
-TEXTCOLOUR = (0,0,0)
+TEXTCOLOUR = (225,225,225)
 
 
 #Frames per second
