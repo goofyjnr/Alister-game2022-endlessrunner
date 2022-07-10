@@ -64,11 +64,15 @@ def monster_spawn():
 
 
 #text
+def get_font(size): # Returns Press-Start-2P in the desired size
+        return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
-    player_health_text = Text("Health: " + str(player.health),50,(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+200),all_sprites, health_ui)
+    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+190), font= get_font(25))
+    player_health_text.add(all_sprites, health_ui )
     #score text
-    score_text = Text("Score: " + str(player.score),50,(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+200),all_sprites, score_ui)
+    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+190),font= get_font(25))
+    score_text.add(all_sprites, score_ui)
 
 #buttons
 start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),150,70)

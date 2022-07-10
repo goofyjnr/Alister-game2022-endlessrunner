@@ -1,5 +1,6 @@
 #This is where all the classes will be kept to make easy changes to them and to keep them all in one place
 
+from tkinter import font
 from config import *
 from pygame.sprite import Sprite, spritecollide
 from pygame.math import Vector2
@@ -33,11 +34,11 @@ class Physics(Drawable):
         self.rect.midbottom = self.position
         
 class Text(Sprite):
-    def __init__(self, text, size, position, *groups) -> None:
+    def __init__(self, text, position, font,  *groups) -> None:
         super().__init__(*groups)
         self.text = text
         self.position = Vector2(position)
-        self.font = Font(None,size)
+        self.font = font
         self.image = self.font.render(self.text,True,TEXTCOLOUR)
         self.rect = self.image.get_rect(midbottom=position)
 

@@ -69,7 +69,7 @@ def game():
         
         #hard mode
         #if player.score == 1:
-          #  monster_spawn()
+            #monster_spawn()
 
         window.fill(BACKGROUNDCOLOUR)
         back_ground.update()
@@ -120,7 +120,8 @@ def main_menu():
         
 
 
-        menu_text = Text("Menu",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), menu_ui)
+        menu_text = Text("Pigeon Pedestrian",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(40))
+        menu_text.add(menu_ui)
 
         window.fill((23,33,39))
 
@@ -150,7 +151,8 @@ def game_over():
     global menu
     #checks to see if the game is over
     if player.health == 0:
-            gameover_text = Text("Game Over",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
+            gameover_text = Text("Game Over",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100),font= get_font(50))
+            gameover_text.add(all_sprites, ui_group)
             ui_group.draw(window)
             health_ui.draw(window)
             score_ui.draw(window)
