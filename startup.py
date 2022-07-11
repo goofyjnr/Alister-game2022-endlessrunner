@@ -64,7 +64,8 @@ def monster_spawn():
 
 
 #text
-def get_font(size): # Returns Press-Start-2P in the desired size
+def get_font(size): 
+    #changes the font
         return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
@@ -88,7 +89,8 @@ end_button.add(menu_ui)
 def pause():
     #pauses the game
     paused = True
-    pause_text = Text("Paused",80,(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),all_sprites, ui_group)
+    pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font= get_font(50))
+    pause_text.add(all_sprites, ui_group)
     ui_group.draw(window)
     health_ui.draw(window)
     score_ui.draw(window)
