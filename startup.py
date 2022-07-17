@@ -13,6 +13,8 @@ window = pygame.display.set_mode((WINDOW_WITDTH,WINDOW_HEIGHT))
 
 game_clock = pygame.time.Clock()
 
+hard_mode = False
+
 #sprite groups
 all_sprites = pygame.sprite.Group()
 players = pygame.sprite.Group()
@@ -76,11 +78,14 @@ def text_spawn():
     score_text.add(all_sprites, score_ui)
 
 #buttons
-start_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),150,70)
+start_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
 end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+100),150,70,image="Assets/end.png")
 end_button.add(menu_ui)
+
+hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image="Assets/hard.png")
+hard_mode_button.add(menu_ui)
 
 
 

@@ -11,6 +11,7 @@ stop_the_game = False
 def game():
     #runs the main game loop
     global menu
+    
     pygame.display.set_caption("Pigeon Pedestrian")
     
     menu = False
@@ -68,8 +69,9 @@ def game():
             monster.colision_with_platforms(platforms)
         
         #hard mode
-        #if player.score == 1:
-            #monster_spawn()
+        if hard_mode == True:
+            if player.score == 0:
+                monster_spawn()
 
         window.fill(BACKGROUNDCOLOUR)
         back_ground.update()
@@ -90,8 +92,10 @@ def main_menu():
     #runs the main menu loop
     global game
     global running
+    global hard_mode
     pygame.display.set_caption("Menu")
     running = False
+    hard_mode = False
 
     menu = True
     while menu:
@@ -115,6 +119,9 @@ def main_menu():
                     pygame.quit()
                     exit()
                     break
+                if event.key == K_SPACE:
+                    game()
+
 
 
         menu_text = Text("Pigeon Pedestrian",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(40))
@@ -126,6 +133,10 @@ def main_menu():
         menu_ui.update()
 
         if start_button.draw(window) == True:
+            game()
+        
+        if hard_mode_button.draw(window) == True:
+            hard_mode = True
             game()
         
         
@@ -146,6 +157,7 @@ def game_over():
     
     global running
     global menu
+    
     #checks to see if the game is over
     if player.health == 0:
             gameover_text = Text("Game Over",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),font= get_font(50))
@@ -164,6 +176,7 @@ def game_over():
             player.playeralive = False
             running = False
             menu = False
+            hard_mode = False
             reset()
             running = False
             main_menu()
