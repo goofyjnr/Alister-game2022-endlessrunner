@@ -13,7 +13,10 @@ window = pygame.display.set_mode((WINDOW_WITDTH,WINDOW_HEIGHT))
 
 game_clock = pygame.time.Clock()
 
+#things that need to be set to False at the beging of the game
 hard_mode = False
+infoing = False
+stop_the_game = False
 
 #sprite groups
 all_sprites = pygame.sprite.Group()
@@ -24,6 +27,7 @@ ui_group = pygame.sprite.Group()
 score_ui = pygame.sprite.Group()
 health_ui = pygame.sprite.Group()
 menu_ui = pygame.sprite.Group()
+info_ui = pygame.sprite.Group()
 
 #background
 back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_HEIGHT)
@@ -81,11 +85,18 @@ def text_spawn():
 start_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2,WINDOW_HEIGHT/2+100),150,70,image="Assets/end.png")
-end_button.add(menu_ui)
+end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+160),150,70,image="Assets/end.png")
+end_button.add(menu_ui,info_ui)
 
 hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image="Assets/hard.png")
 hard_mode_button.add(menu_ui)
+
+info_button =  Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+160),150,70,image="Assets/info.png")
+info_button.add(menu_ui)
+
+back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+160),150,70,image="Assets/back.png")
+back_button.add(info_ui)
+
 
 
 

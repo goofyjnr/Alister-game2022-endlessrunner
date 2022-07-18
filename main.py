@@ -6,7 +6,7 @@ from config import *
 from objects import *
 from startup import *
 
-stop_the_game = False
+
 
 def game():
     #runs the main game loop
@@ -38,7 +38,7 @@ def game():
                 running = False
                 pygame.quit()
                 exit()
-                break
+                
             elif event.type == KEYDOWN:
                 #if ESC key gets pressed
                 if event.key == K_ESCAPE:
@@ -46,7 +46,7 @@ def game():
                     menu = False
                     pygame.quit()
                     exit()
-                    break
+                    
                 elif event.key == K_SPACE or event.key == K_w or event.key == K_UP:
                     player.jump()
                 elif event.key == K_RIGHT or event.key == K_d:
@@ -93,6 +93,7 @@ def main_menu():
     global game
     global running
     global hard_mode
+    global infoing
     pygame.display.set_caption("Menu")
     running = False
     hard_mode = False
@@ -108,7 +109,7 @@ def main_menu():
                 menu = False
                 pygame.quit()
                 exit()
-                break
+                
                 
                 
             elif event.type == KEYDOWN:
@@ -118,9 +119,7 @@ def main_menu():
                     menu = False
                     pygame.quit()
                     exit()
-                    break
-                if event.key == K_SPACE:
-                    game()
+                    
 
 
 
@@ -139,10 +138,13 @@ def main_menu():
             hard_mode = True
             game()
         
+        if info_button.draw(window) == True:
+            infoing = True
+            info()
+        
         
 
-        for sprite in menu_ui:
-            window.blit(sprite.image,sprite.rect)
+        
 
         if end_button.draw(window) == True:
             stop_the_game = True
@@ -150,10 +152,14 @@ def main_menu():
             menu = False
             pygame.quit()
             exit()
-            break
+            
+
+        for sprite in menu_ui:
+            window.blit(sprite.image,sprite.rect)
         pygame.display.update()
 
 def game_over():
+    #checks to see if the player has died
     
     global running
     global menu
@@ -180,6 +186,53 @@ def game_over():
             reset()
             running = False
             main_menu()
+
+def info():
+    #runs the info loop where the player can find out how to play the game and what its about
+    global infoing
+    pygame.display.set_caption("Info")
+
+    infoing = True
+    if infoing == True:
+        while infoing:
+            game_clock.tick(FPS)
+            events = pygame.event.get()
+            window.fill(BACKGROUNDCOLOUR)
+            for event in events:
+                #print(event)
+                if event.type == QUIT:
+                    infoing = False
+                    pygame.quit()
+                    exit()
+                    
+                elif event.type == KEYDOWN:
+                    #if ESC key gets pressed
+                    if event.key == K_ESCAPE:
+                        infoing = False
+                        pygame.quit()
+                        exit()
+            info_text_1 = Text("Use WASD or Arrow keys to move the pigeon around the screen.",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(13))
+            info_text_1.add(info_ui)
+            info_text_2 = Text("Avoid getting hit by the cars by jumping over them.",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100+20), font= get_font(13))
+            info_text_2.add(info_ui)
+            info_text_3 = Text("Every time the car leaves the screen you gain one point",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100+40), font= get_font(13))
+            info_text_3.add(info_ui)
+            if back_button.draw(window) == True:
+                main_menu()
+            if end_button.draw(window) == True:
+                        infoing = False
+                        pygame.quit()
+                        exit()
+                        
+            
+
+            for sprite in info_ui:
+                window.blit(sprite.image,sprite.rect)
+            
+            pygame.display.update()
+            
+
+
     
 
 main_menu()

@@ -131,6 +131,7 @@ class Monster(Physics):
             if self.vel.y > 0:
                 self.vel.y = 0
                 self.position.y = monster_hits_platforms[0].rect.top 
+    
 
     def restart(self,position):
         self.vel = Vector2(-3,0)
