@@ -71,7 +71,7 @@ def monster_spawn():
 
 #text
 def get_font(size): 
-    #changes the font
+    #changes the font to the font that I wanted to use
         return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
@@ -85,16 +85,16 @@ def text_spawn():
 start_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+160),150,70,image="Assets/end.png")
+end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+120),150,70,image="Assets/end.png")
 end_button.add(menu_ui,info_ui)
 
 hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image="Assets/hard.png")
 hard_mode_button.add(menu_ui)
 
-info_button =  Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+160),150,70,image="Assets/info.png")
+info_button =  Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image="Assets/info.png")
 info_button.add(menu_ui)
 
-back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+160),150,70,image="Assets/back.png")
+back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image="Assets/back.png")
 back_button.add(info_ui)
 
 

@@ -56,13 +56,6 @@ class Player(Physics):
         self.health = PLAYER_HEALTH
         self.playeralive = True
 
-        #player animation code
-        #self.animation_list = []
-        #self.index = 0
-        #for i in range(3):
-        #    image = 
-        #self.flip = False
-
 
     def move(self,direction):
         if direction == "left":
