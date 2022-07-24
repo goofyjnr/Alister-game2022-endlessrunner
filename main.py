@@ -127,6 +127,9 @@ def main_menu():
         menu_text.add(menu_ui)
 
         window.fill(BACKGROUNDCOLOUR)
+        
+        back_ground.render(window)
+        back_ground.update()
 
 
         menu_ui.update()
@@ -144,8 +147,6 @@ def main_menu():
         
         
 
-        
-
         if end_button.draw(window) == True:
             stop_the_game = True
             running = False
@@ -156,6 +157,7 @@ def main_menu():
 
         for sprite in menu_ui:
             window.blit(sprite.image,sprite.rect)
+        
         pygame.display.update()
 
 def game_over():
