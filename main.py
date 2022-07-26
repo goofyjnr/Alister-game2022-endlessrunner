@@ -158,6 +158,7 @@ def main_menu():
         for sprite in menu_ui:
             window.blit(sprite.image,sprite.rect)
         
+        
         pygame.display.update()
 
 def game_over():
@@ -237,6 +238,6 @@ def info():
 
     
 
-main_menu()
+main_menu()#Starts off the game at the Menu
 
 pygame.quit()

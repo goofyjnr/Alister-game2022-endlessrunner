@@ -1,5 +1,4 @@
 #where everything that needs to be spawned is spawned in
-from platform import platform
 import pygame
 from pygame.locals import *
 
@@ -9,6 +8,7 @@ from random import randint, random, choice
 
 pygame.init()
 
+#set up
 window = pygame.display.set_mode((WINDOW_WITDTH,WINDOW_HEIGHT))
 
 game_clock = pygame.time.Clock()
@@ -56,13 +56,11 @@ player = Player((30,WINDOW_HEIGHT/2),40,40)
 player.add(all_sprites, players)
 player.vel = Vector2(0,0)
 
-
-
 #monsters
 #creates the monster
 def monster_spawn():
     #spawns the monsters
-    monster_colours = ["Assets/monster/0.png", "Assets/monster/1.png", "Assets/monster/2.png", "Assets/monster/3.png"]
+    monster_colours = ["Assets/monster/0.png", "Assets/monster/1.png", "Assets/monster/2.png", "Assets/monster/3.png", "Assets/monster/4.png" ]
     monster_colour = choice(monster_colours)
     monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(80,100),70,image= monster_colour )
     monster.add(all_sprites, monsters)
@@ -99,8 +97,7 @@ back_button.add(info_ui)
 
 
 
-
-
+#functions
 #pauses the game
 def pause():
     #pauses the game
