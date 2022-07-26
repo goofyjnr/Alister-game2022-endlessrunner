@@ -7,8 +7,9 @@ from pygame.image import load
 from pygame.transform import scale, flip
 from pygame.font import Font
 from pygame.mouse import get_pos, get_pressed
-#from pygame.surface import Surface
-#from pygame.time import time
+from pygame.surface import Surface
+from pygame.time import *
+import pygame
 
 
 
@@ -52,11 +53,24 @@ class Text(Sprite):
         self.image = self.font.render(self.text,True,TEXTCOLOUR)
         self.rect = self.image.get_rect(midbottom=self.position)
 
+class SpriteSheet():
+    """Class for handling the sprite sheets alowing for character animation"""
+    def __init__(self, image):
+        self.sheet = image
+
+    def get_image(self, frame, width, height, scale, color):
+        image = Surface((width, height)).convert_alpha()
+        image.blit(self.sheet, (0,0), (((frame * width)), 0, width, height))
+        image = pygame.transform.scale (image, (width * scale, height * scale))
+        image.set_colorkey(color)
+
+        return image
+        
+
 class Player(Physics):
     """Class to set up the player and all the things it needs to do i.e. movement inherits from Physics"""
     def __init__(self, position, width, height, image="Assets/chara.png"):
         super().__init__(position, width, height, image,)
-        self.image = flip(self.image,True,False)
         self.jumping = False #sets it up so can jump the first time
         self.jump_count = 0
         self.score = 0
@@ -64,14 +78,14 @@ class Player(Physics):
         self.playeralive = True
 
         #sprite sheet and animation stuff
-        """
-        self.sprite_sheet_image = image.load('assets/player-spritesheet.png').convert_alpha()
+        
+        self.sprite_sheet_image = pygame.image.load('Assets/sprite_sheet.png').convert_alpha()
         self.sprite_sheet = SpriteSheet(self.sprite_sheet_image)
 
         self.animation_list = []
         self.animation_steps = [3, 1]
         self.action = 0
-        self.last_update = time.get_ticks()
+        self.last_update = get_ticks()
         self.animation_cooldown = 125
         self.frame = 0
         self.step_counter = 0
@@ -82,7 +96,7 @@ class Player(Physics):
                 temp_image_list.append(self.sprite_sheet.get_image(self.step_counter, 8, 11, 3, (0,0,0)))
                 self.step_counter += 1
             self.animation_list.append(temp_image_list)
-            """
+            
 
 
     def move(self,direction):
@@ -139,10 +153,10 @@ class Player(Physics):
         self.vel.x -= self.vel.x * FRIC
         self.position += self.vel
         self.rect.midbottom = self.position
-"""
+
         #sprite sheet and animation stuff
         #frame_0 = self.sprite_sheet.get_image(1, 100, 121, 1, (30,0,30))
-        current_time = time.get_ticks()
+        current_time = get_ticks()
         if current_time - self.last_update >= self.animation_cooldown:
             self.frame += 1
             self.last_update = current_time
@@ -150,7 +164,7 @@ class Player(Physics):
                 self.frame = 0
                 
         self.image = self.animation_list[self.action][self.frame]
-        """
+        
     
 
     
@@ -247,16 +261,3 @@ class Button(Drawable):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
         return action
-"""
-class SpriteSheet():
-    def __init__(self, image):
-        self.sheet = image
-
-    def get_image(self, frame, width, height, scale, color):
-        image = Surface((width, height)).convert_alpha()
-        image.blit(self.sheet, (0,0), (((frame * width)), 0, width, height))
-        image = scale (image, (width * scale, height * scale))
-        image.set_colorkey(color)
-
-        return image
-        """
