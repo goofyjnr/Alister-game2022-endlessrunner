@@ -46,17 +46,25 @@ def game():
                     menu = False
                     pygame.quit()
                     exit()
-                    
+               
                 elif event.key == K_SPACE or event.key == K_w or event.key == K_UP:
                     player.jump()
-                elif event.key == K_RIGHT or event.key == K_d:
-                    player.move("right")
-                elif event.key == K_LEFT or event.key == K_a:
-                    player.move("left")
                 elif event.key == K_DOWN or event.key == K_s:
-                    player.move("down")
+                    player.move("down") 
                 elif event.key == K_p:
                     pause()
+        #Constant movment to the left or the right
+        move_ticker = 0
+        keys = pygame.key.get_pressed()
+        if keys[K_LEFT] or keys[K_a]:
+            if move_ticker == 0:
+                move_ticker = 3
+                player.move("left")
+        if keys[K_RIGHT] or keys[K_d]:
+            if move_ticker == 0:   
+                move_ticker = 3     
+                player.move("right")
+                
             
         monster_leave()
         platform_leave()
@@ -91,6 +99,8 @@ def game():
 
         if player.health == 0:
             game_over()
+        if move_ticker > 0:
+            move_ticker -= 1
 
 
 def main_menu():

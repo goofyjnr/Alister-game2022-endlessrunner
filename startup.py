@@ -77,26 +77,26 @@ def get_font(size):
         return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
-    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-240,40), font= get_font(25))
+    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-240,40), font = get_font(25))
     player_health_text.add(all_sprites, health_ui )
     #score text
-    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+240,40),font= get_font(25))
+    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+240,40),font = get_font(25))
     score_text.add(all_sprites, score_ui)
 
 #buttons
 start_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
-end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+120),150,70,image="Assets/end.png")
+end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/end.png")
 end_button.add(menu_ui,info_ui)
 
-hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image="Assets/hard.png")
+hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image = "Assets/hard.png")
 hard_mode_button.add(menu_ui)
 
-info_button =  Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image="Assets/info.png")
+info_button =  Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/info.png")
 info_button.add(menu_ui)
 
-back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image="Assets/back.png")
+back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/back.png")
 back_button.add(info_ui)
 
 
@@ -110,7 +110,7 @@ def pause():
     pygame.draw.rect(black_background,(0,0,0),black_background.get_rect(),10)
     window.blit(black_background,(0,0))
     paused = True
-    pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font= get_font(50))
+    pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font = get_font(50))
     pause_text.add(all_sprites, ui_group)
     ui_group.draw(window)
     health_ui.draw(window)

@@ -10,6 +10,7 @@ WINDOW_HEIGHT = 400
 #colours 
 BACKGROUNDCOLOUR = (30,43,49)
 TEXTCOLOUR = (0,0,0)
+BLACK = (0,0,0)
 
 
 #Frames per second
@@ -17,11 +18,11 @@ FPS = 30
 
 #game world physics
 GRAVITY = Vector2(0,1)
-FRIC = 0.08 #Friction
+FRIC = 0.12 #Friction
 
 #player stuff
 JUMP_STRENGTH = Vector2(0,-15)
-MOVE_STRENGTH =  Vector2(5,5)
+MOVE_STRENGTH =  Vector2(1.5,5)
 PLAYER_HEALTH = 3
 
 #monster stuff

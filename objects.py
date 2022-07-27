@@ -20,7 +20,7 @@ class Drawable(Sprite):
 
         self.position = Vector2(position)
         self.image = scale(load(image),(width,height))
-        self.image.set_colorkey((70,60,78))
+        self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect(midbottom=position)
 
@@ -30,6 +30,7 @@ class Physics(Drawable):
         super().__init__(position, width, height, image)
 
         self.vel = Vector2((0,0))
+        
 
     def update(self):
         #Basic update function for all things on the window
@@ -146,7 +147,7 @@ class Player(Physics):
         self.score = 0
         self.health = PLAYER_HEALTH
         self.position = Vector2(position)
-        self.playeralive= True
+        self.playeralive = True
 
     def update(self):
         #Update function for the player
@@ -211,7 +212,7 @@ class Platform(Physics):
 
 class Background(Drawable):
     """Class to set up the background that moves across the screen in a loop inherits from Drawable"""
-    def __init__(self, position, x, y, width, height, image="Assets/background.png"):
+    def __init__(self, position, x, y, width, height, image = "Assets/background.png"):
         super().__init__(position, width, height, image)
         self.bgimage = scale(load(image),(width,height))
         self.rectBGimg = self.bgimage.get_rect()
@@ -243,6 +244,7 @@ class Button(Drawable):
         super().__init__(position, width, height, image)
 
         self.clicked = False 
+        
 
 
     def draw(self, window):
