@@ -77,10 +77,10 @@ def get_font(size):
         return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
-    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-200,40), font= get_font(25))
+    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-240,40), font= get_font(25))
     player_health_text.add(all_sprites, health_ui )
     #score text
-    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+200,40),font= get_font(25))
+    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+240,40),font= get_font(25))
     score_text.add(all_sprites, score_ui)
 
 #buttons
@@ -105,6 +105,10 @@ back_button.add(info_ui)
 #pauses the game
 def pause():
     #pauses the game
+    black_background = pygame.Surface((WINDOW_WITDTH,WINDOW_HEIGHT))
+    black_background.set_alpha(150)
+    pygame.draw.rect(black_background,(0,0,0),black_background.get_rect(),10)
+    window.blit(black_background,(0,0))
     paused = True
     pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font= get_font(50))
     pause_text.add(all_sprites, ui_group)
