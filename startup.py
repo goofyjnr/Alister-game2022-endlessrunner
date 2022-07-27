@@ -30,7 +30,10 @@ menu_ui = pygame.sprite.Group()
 info_ui = pygame.sprite.Group()
 
 #background
-back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_HEIGHT)
+back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),0,0,WINDOW_WITDTH,WINDOW_HEIGHT)
+base_platform_moving = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT),0,WINDOW_HEIGHT-60,WINDOW_WITDTH,60, image = "Assets/platform.png")
+    
+
 
 
 
@@ -38,7 +41,7 @@ back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),WINDOW_WITDTH,WINDOW_
 #moving platforms
 def platform_spawn():
     #spawns the moving platforms
-    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),randint(100,200),20, image= "Assets/flying_platforms.png")
+    platform = Platform((WINDOW_WITDTH,WINDOW_HEIGHT-200),randint(100,200),20, image = "Assets/flying_platforms.png")
     platform.add(all_sprites,platforms)
     platform.vel = Vector2(-randint(4,8),0)
 
@@ -48,6 +51,7 @@ def base_platform_spawn():
     #spawns the non moving base platform
     base_platform = Platform((WINDOW_WITDTH/2,WINDOW_HEIGHT ),WINDOW_WITDTH,60)
     base_platform.add(all_sprites,platforms)
+    base_platform_moving.add(all_sprites)
     base_platform.vel = Vector2(0,0)
 
 #player
@@ -73,10 +77,10 @@ def get_font(size):
         return Font("Assets/font.ttf", size)
 def text_spawn():
     #player health 
-    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-200,WINDOW_HEIGHT/2+190), font= get_font(25))
+    player_health_text = Text("Health: " + str(player.health),(WINDOW_WITDTH/2-200,40), font= get_font(25))
     player_health_text.add(all_sprites, health_ui )
     #score text
-    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+200,WINDOW_HEIGHT/2+190),font= get_font(25))
+    score_text = Text("Score: " + str(player.score),(WINDOW_WITDTH/2+200,40),font= get_font(25))
     score_text.add(all_sprites, score_ui)
 
 #buttons
@@ -127,7 +131,16 @@ def player_hit():
     if len(hit_monster) != 0:
         player.health -= 1
         update_health()
+        
+        if player.action < len(player.animation_list) -1:
+            player.action += 1
+            player.frame = 0
+            
+            player.action -= 1
+            player.frame = 0
+            
         monster_spawn()
+            
 
 
 def platform_leave():

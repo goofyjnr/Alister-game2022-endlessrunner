@@ -76,10 +76,14 @@ def game():
         window.fill(BACKGROUNDCOLOUR)
         back_ground.update()
         back_ground.render(window)
+        
         all_sprites.update()
+        
         
         for sprite in all_sprites:
             window.blit(sprite.image,sprite.rect)
+        base_platform_moving.update()
+        base_platform_moving.render(window)
 
         
         pygame.display.update()
