@@ -132,14 +132,19 @@ def player_hit():
         player.health -= 1
         update_health()
         
-        if player.action < len(player.animation_list) -1:
+        if player.action < len(player.animation_list) - 1:
             player.action += 1
             player.frame = 0
-            
-            player.action -= 1
-            player.frame = 0
-            
+            pygame.time.wait(50)
         monster_spawn()
+
+def player_running():
+    #resets the animation to the player running code
+    if player.action > 0:
+        if player.action == 1:
+            pygame.time.wait(50)
+        player.action = 0
+        player.frame = 0
             
 
 

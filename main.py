@@ -60,6 +60,7 @@ def game():
             
         monster_leave()
         platform_leave()
+        player_running()
         player_hit()
          
         player.colision_with_platforms(platforms)

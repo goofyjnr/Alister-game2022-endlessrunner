@@ -125,6 +125,7 @@ class Player(Physics):
                 self.position.y = player_hits_platforms[0].rect.top 
                 self.jumping = False #resets it so after you touch a platform you can jump again
                 self.jump_count = 0
+                
 
     def player_offscreen(self):
          #stops the player from going off screen
