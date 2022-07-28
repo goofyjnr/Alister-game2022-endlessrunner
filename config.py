@@ -18,7 +18,7 @@ FPS = 30
 
 #game world physics
 GRAVITY = Vector2(0,1)
-FRIC = 0.12 #Friction
+FRIC = 0.14 #Friction
 
 #player stuff
 JUMP_STRENGTH = Vector2(0,-15)

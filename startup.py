@@ -1,7 +1,7 @@
 #where everything that needs to be spawned is spawned in
 import pygame
 from pygame.locals import *
-
+from sys import exit
 from config import *
 from objects import *
 from random import randint, random, choice
@@ -28,6 +28,7 @@ score_ui = pygame.sprite.Group()
 health_ui = pygame.sprite.Group()
 menu_ui = pygame.sprite.Group()
 info_ui = pygame.sprite.Group()
+pause_ui = pygame.sprite.Group()
 
 #background
 back_ground = Background((WINDOW_WITDTH/2,WINDOW_HEIGHT/2),0,0,WINDOW_WITDTH,WINDOW_HEIGHT)
@@ -88,7 +89,7 @@ start_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2),150,70)
 start_button.add(menu_ui)
 
 end_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/end.png")
-end_button.add(menu_ui,info_ui)
+end_button.add(menu_ui,info_ui,pause_ui)
 
 hard_mode_button = Button((WINDOW_WITDTH/2+100,WINDOW_HEIGHT/2),150,70,image = "Assets/hard.png")
 hard_mode_button.add(menu_ui)
@@ -99,36 +100,12 @@ info_button.add(menu_ui)
 back_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/back.png")
 back_button.add(info_ui)
 
+play_button = Button((WINDOW_WITDTH/2-100,WINDOW_HEIGHT/2+120),150,70,image = "Assets/play.png")
+play_button.add(pause_ui)
+
 
 
 #functions
-#pauses the game
-def pause():
-    #pauses the game
-    black_background = pygame.Surface((WINDOW_WITDTH,WINDOW_HEIGHT))
-    black_background.set_alpha(150)
-    pygame.draw.rect(black_background,(0,0,0),black_background.get_rect(),10)
-    window.blit(black_background,(0,0))
-    paused = True
-    pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font = get_font(50))
-    pause_text.add(all_sprites, ui_group)
-    ui_group.draw(window)
-    health_ui.draw(window)
-    score_ui.draw(window)
-    pygame.display.update()
-    
-    while paused:
-        event = pygame.event.wait()
-        if event.type == QUIT:
-                paused = False
-                pause_text.kill()
-        if event.type == KEYDOWN:
-            if event.key == K_p:
-                
-                paused = False
-                pause_text.kill()
-
-
 def player_hit():
     #player and monster colision
     hit_monster = pygame.sprite.spritecollide(player,monsters,True)
@@ -190,4 +167,276 @@ def reset():
             platform.kill()
 
 
+def game():
+    #runs the main game loop
+    global menu
+    
+    pygame.display.set_caption("Pigeon Pedestrian")
+    
+    menu = False
+    base_platform_spawn()
+    platform_spawn()
+    monster_spawn()
+    text_spawn()
+    
+    
 
+    #main game loop
+    running = True
+    while running:
+        if stop_the_game:
+            return
+
+        game_clock.tick(FPS)
+
+        #get the events
+        events = pygame.event.get()
+        for event in events:
+            #print(event)
+            if event.type == QUIT:
+                running = False
+                pygame.quit()
+                exit()
+                
+            elif event.type == KEYDOWN:
+                #if ESC key gets pressed
+                if event.key == K_ESCAPE:
+                    running = False #if the escape key is pressed quit the game.
+                    menu = False
+                    pygame.quit()
+                    exit()
+                elif event.key == K_SPACE or event.key == K_w or event.key == K_UP:
+                    player.jump()
+                elif event.key == K_DOWN or event.key == K_s:
+                    player.move("down") 
+                elif event.key == K_p:
+                    pause()
+        #Constant movment to the left or the right
+        move_ticker = 0
+        keys = pygame.key.get_pressed()
+        if keys[K_LEFT] or keys[K_a]:
+            if move_ticker == 0:
+                move_ticker = 3
+                player.move("left")
+        if keys[K_RIGHT] or keys[K_d]:
+            if move_ticker == 0:   
+                move_ticker = 3     
+                player.move("right")
+                
+            
+        monster_leave()
+        platform_leave()
+        player_running()
+        player_hit()
+         
+        player.colision_with_platforms(platforms)
+        player.player_offscreen()
+
+        for monster in monsters:
+            monster.colision_with_platforms(platforms)
+        
+        #hard mode
+        if hard_mode == True:
+            if player.score == 0:
+                monster_spawn()
+
+        window.fill(BACKGROUNDCOLOUR)
+        back_ground.update()
+        back_ground.render(window)
+        
+        all_sprites.update()
+        
+        
+        for sprite in all_sprites:
+            window.blit(sprite.image,sprite.rect)
+        base_platform_moving.update()
+        base_platform_moving.render(window)
+
+        
+        pygame.display.update()
+
+        if player.health == 0:
+            game_over()
+        if move_ticker > 0:
+            move_ticker -= 1
+
+
+def main_menu():
+    #runs the main menu loop
+    global game
+    global running
+    global hard_mode
+    global infoing
+    pygame.display.set_caption("Menu")
+    running = False
+    hard_mode = False
+
+    menu = True
+    while menu:
+        game_clock.tick(FPS)
+        events = pygame.event.get()
+        for event in events:
+            #print(event)
+            if event.type == QUIT:
+                running = False
+                menu = False
+                pygame.quit()
+                exit()
+                
+                
+                
+            elif event.type == KEYDOWN:
+                #if ESC key gets pressed
+                if event.key == K_ESCAPE:
+                    running = False
+                    menu = False
+                    pygame.quit()
+                    exit()
+                    
+
+
+
+        menu_text = Text("Pigeon Pedestrian",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(40))
+        menu_text.add(menu_ui)
+
+        window.fill(BACKGROUNDCOLOUR)
+        
+        back_ground.render(window)
+        back_ground.update()
+
+
+        menu_ui.update()
+
+        if start_button.draw(window) == True:
+            game()
+        
+        if hard_mode_button.draw(window) == True:
+            hard_mode = True
+            game()
+        
+        if info_button.draw(window) == True:
+            infoing = True
+            info()
+        
+        
+
+        if end_button.draw(window) == True:
+            stop_the_game = True
+            running = False
+            menu = False
+            pygame.quit()
+            exit()
+            
+
+        for sprite in menu_ui:
+            window.blit(sprite.image,sprite.rect)
+        
+        
+        pygame.display.update()
+
+def game_over():
+    #checks to see if the player has died
+    
+    global running
+    global menu
+    
+    #checks to see if the game is over
+    if player.health == 0:
+            gameover_text = Text("Game Over",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2),font= get_font(50))
+            gameover_text.add(all_sprites, ui_group)
+            ui_group.draw(window)
+            health_ui.draw(window)
+            score_ui.draw(window)
+
+            pygame.display.update()
+            pygame.time.delay(1000)
+            gameover_text.kill()
+            for monster in monsters:
+                monster.kill()
+            for platform in platforms:
+                platform.kill()
+            player.playeralive = False
+            running = False
+            menu = False
+            hard_mode = False
+            reset()
+            running = False
+            main_menu()
+
+def info():
+    #runs the info loop where the player can find out how to play the game and what its about
+    global infoing
+    pygame.display.set_caption("Info")
+
+    infoing = True
+    if infoing == True:
+        while infoing:
+            game_clock.tick(FPS)
+            events = pygame.event.get()
+            window.fill(BACKGROUNDCOLOUR)
+            for event in events:
+                #print(event)
+                if event.type == QUIT:
+                    infoing = False
+                    pygame.quit()
+                    exit()
+                    
+                elif event.type == KEYDOWN:
+                    #if ESC key gets pressed
+                    if event.key == K_ESCAPE:
+                        infoing = False
+                        pygame.quit()
+                        exit()
+            info_text_1 = Text("Use WASD or Arrow keys to move the pigeon around the screen.",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(13))
+            info_text_1.add(info_ui)
+            info_text_2 = Text("Avoid getting hit by the cars by jumping over them.",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100+20), font= get_font(13))
+            info_text_2.add(info_ui)
+            info_text_3 = Text("Every time the car leaves the screen you gain one point",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100+40), font= get_font(13))
+            info_text_3.add(info_ui)
+            if back_button.draw(window) == True:
+                main_menu()
+            if end_button.draw(window) == True:
+                        infoing = False
+                        pygame.quit()
+                        exit()
+                        
+            
+
+            for sprite in info_ui:
+                window.blit(sprite.image,sprite.rect)
+            
+            pygame.display.update()
+
+
+def pause():
+    #pauses the game
+    black_background = pygame.Surface((WINDOW_WITDTH,WINDOW_HEIGHT))
+    black_background.set_alpha(150)
+    pygame.draw.rect(black_background,(0,0,0),black_background.get_rect(),10)
+    window.blit(black_background,(0,0))
+    paused = True
+    pause_text = Text("Paused",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2), font = get_font(50))
+    pause_text.add(all_sprites, ui_group)
+    ui_group.draw(window)
+    health_ui.draw(window)
+    score_ui.draw(window)
+    pause_ui.draw(window)
+    pygame.display.update()
+    
+    while paused:
+        event = pygame.event.wait()
+        if event.type == QUIT:
+                paused = False
+                pause_text.kill()
+        if event.type == KEYDOWN:
+            if event.key == K_p:
+                paused = False
+                pause_text.kill()
+        
+        if play_button.draw(window) == True:
+            pause_text.kill()
+            paused = False
+        if end_button.draw(window) == True:
+            infoing = False
+            pygame.quit()
+            exit()
