@@ -4,7 +4,7 @@ from pygame.locals import *
 from sys import exit
 from config import *
 from objects import *
-from random import randint, random, choice
+from random import randint, choice
 
 pygame.init()
 
@@ -67,9 +67,9 @@ def monster_spawn():
     #spawns the monsters
     monster_colours = ["Assets/monster/0.png", "Assets/monster/1.png", "Assets/monster/2.png", "Assets/monster/3.png", "Assets/monster/4.png" ]
     monster_colour = choice(monster_colours)
-    monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-65),randint(80,100),70,image= monster_colour )
+    monster = Monster((WINDOW_WITDTH+30,WINDOW_HEIGHT-60.01),randint(80,100),70,image= monster_colour )
     monster.add(all_sprites, monsters)
-    monster.vel = Vector2(MONSTER_SPEED-randint(1,6),0)
+    monster.vel = Vector2(MONSTER_SPEED-randint(3,6),0)
 
 
 #text
@@ -237,7 +237,7 @@ def game():
         
         #hard mode
         if hard_mode == True:
-            if player.score == 0:
+            if player.score == 0 or player.score == 1 :
                 monster_spawn()
 
         window.fill(BACKGROUNDCOLOUR)
@@ -299,7 +299,6 @@ def main_menu():
         menu_text = Text("Pigeon Pedestrian",(WINDOW_WITDTH/2,WINDOW_HEIGHT/2-100), font= get_font(40))
         menu_text.add(menu_ui)
 
-        window.fill(BACKGROUNDCOLOUR)
         
         back_ground.render(window)
         back_ground.update()
@@ -432,11 +431,14 @@ def pause():
             if event.key == K_p:
                 paused = False
                 pause_text.kill()
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+
         
         if play_button.draw(window) == True:
             pause_text.kill()
             paused = False
         if end_button.draw(window) == True:
-            infoing = False
             pygame.quit()
             exit()

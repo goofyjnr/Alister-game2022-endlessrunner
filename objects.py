@@ -88,7 +88,7 @@ class Player(Physics):
         self.animation_steps = [5, 1]
         self.action = 0
         self.last_update = get_ticks()
-        self.animation_cooldown = 125
+        self.animation_cooldown = 105
         self.frame = 0
         self.step_counter = 0
 
