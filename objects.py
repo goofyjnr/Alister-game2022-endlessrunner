@@ -132,13 +132,13 @@ class Player(Physics):
          #stops the player from going off screen
         if self.position.x < 0:
             self.vel = Vector2(0,0)
-            self.position.x = self.position.x+3       
+            self.position.x = self.position.x + 3       
         if self.position.x > WINDOW_WITDTH-200:
             self.vel = Vector2(0,0)
-            self.position.x = self.position.x-1
+            self.position.x = self.position.x - 1
         if self.position.y < 0 :
             self.vel = Vector2(0,0)
-            self.position.y = self.position.y+3
+            self.position.y = self.position.y + 3
 
     def restart(self,position):
         #resets player to beginging position
