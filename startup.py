@@ -67,7 +67,7 @@ def monster_spawn():
     #spawns the monsters
     monster_colours = ["Assets/monster/0.png", "Assets/monster/1.png", "Assets/monster/2.png", "Assets/monster/3.png", "Assets/monster/4.png" ]
     monster_colour = choice(monster_colours)
-    monster = Monster((WINDOW_WITDTH+30,WINDOW_HEIGHT-60.01),randint(80,100),70,image= monster_colour )
+    monster = Monster((WINDOW_WITDTH,WINDOW_HEIGHT-60.01),randint(80,100),70,image= monster_colour )
     monster.add(all_sprites, monsters)
     monster.vel = Vector2(MONSTER_SPEED-randint(3,6),0)
 

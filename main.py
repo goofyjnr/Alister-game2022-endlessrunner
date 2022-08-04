@@ -1,4 +1,4 @@
-#This is where the main loop and other things that interact with the main loop is kept 
+#This is where the game is started
 import pygame 
 from config import *
 from objects import *
